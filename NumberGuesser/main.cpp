@@ -1,12 +1,21 @@
 #include <iostream>
 using namespace std;
 
-// To Do
-// turn count
+// This function checks if the user cheated
+// Using binary search algorithm from
+// http://appinventor.cs.trincoll.edu/csp/webapps/search/binarysearch.html
+int testForCheater(int minVal, int maxVal) {
+	// total tries = log(sub)2 (total numbers)
+	// test case: log2 64 = 6
+	// needs to round up ex. 6.5 -> 7
+	int num = ceil(log2(maxVal - minVal + 1));
+	return num;
+}
 
 int binarySearch(int minVal, int maxVal) {
 
 	int tryNum = 1;
+	int cheatNum = testForCheater(minVal, maxVal);
 
 	cout << "Choose a number between " << minVal << " and " << 
 		maxVal << " (inclusive)." << endl;
@@ -68,45 +77,32 @@ int binarySearch(int minVal, int maxVal) {
 		// update
 		middle = (minVal + maxVal) / 2;
 		tryNum++;
+		// if they cheated
+		if (tryNum > cheatNum) {
+			cout << "It should have only taken me " << cheatNum << " tries to guess you number." << endl;
+			cout << "It is try number " << tryNum << "." << endl;
+			return 0;
+		}
 	}
 }
 
-// This function checks if the user cheated
-// Using binary search algorithm from
-	// http://appinventor.cs.trincoll.edu/csp/webapps/search/binarysearch.html
-int testForCheater(int minVal, int maxVal) {
-	// total tries = log(sub)2 (total numbers)
-	// test case: log2 64 = 6
-		// needs to round up ex. 6.5 -> 7
-	int num = ceil(log2(maxVal - minVal + 1));
-	return num;
-}
-
+// Main application function
 int main() {
 
 	int minVal = 1;
 	int maxVal = 100;
 
-	// PUT INTO BINARYSEARCH FUNCTION
-	int cheatNum = testForCheater(minVal, maxVal);
-
 	int tryCount = binarySearch(minVal, maxVal);
 
-	if (tryCount == 1) {
+	if (tryCount == 0) {
+		cout << "You cheated." << endl;
+	} else if (tryCount == 1) {
 		cout << "It took me " << tryCount <<
 			" try to guess your number." << endl;
-	}
-	else {
+	} else {
 		cout << "It took me " << tryCount <<
 			" tries to guess your number." << endl;
 	}
-
-	if (tryCount > cheatNum) {
-		cout << "But you cheated so you forfeit." << endl;
-		cout << "It should only have taken me " << cheatNum 
-			<< " tries." << endl;
-	}
-	
 
 	system("pause");
 	return 0;
