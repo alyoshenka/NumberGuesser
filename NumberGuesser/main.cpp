@@ -1,9 +1,13 @@
 #include <iostream>
 using namespace std;
 
-// This function checks if the user cheated
+// To Do
+// check for good coding practices
+// put in better comments
+
 // Using binary search algorithm from
 // http://appinventor.cs.trincoll.edu/csp/webapps/search/binarysearch.html
+// This function checks if the user cheated
 int testForCheater(int minVal, int maxVal) {
 	// total tries = log(sub)2 (total numbers)
 	// test case: log2 64 = 6
@@ -14,9 +18,13 @@ int testForCheater(int minVal, int maxVal) {
 
 int binarySearch(int minVal, int maxVal) {
 
+	// number of tries
 	int tryNum = 1;
+
+	// max number of tries without cheating
 	int cheatNum = testForCheater(minVal, maxVal);
 
+	// initial prompt
 	cout << "Choose a number between " << minVal << " and " << 
 		maxVal << " (inclusive)." << endl;
 	cout << "Hit enter when ready." << endl;
@@ -33,13 +41,17 @@ int binarySearch(int minVal, int maxVal) {
 	// initialize
 	int middle = (minVal + maxVal) / 2;
 
-	while (minVal <= maxVal) {
+	// changed from (minVal < maxVal)
+	// while user hasnt cheated
+	while (cheatNum > tryNum) {
 
 		// check if it is the number
+		// user input
 		char check = 'a';
 		// check for number
 		cout << "Is " << middle << " the number? (y or n)" << endl;
 		cin >> check;
+
 		// break out of loop
 		if (check == 'y') {
 			cout << middle << " is your number." << endl;
@@ -62,11 +74,23 @@ int binarySearch(int minVal, int maxVal) {
 		check = 'a';
 		cout << "Is " << middle << " too high? (y or n)" << endl;
 		cin >> check;
-		if (check == 'y') {
-			tooHigh = true;
+		while (check != 'n' && check != 'y') {
+			cout << "Bad input." << endl;
+			cout << "Is " << middle << " too high? (y or n)" << endl;
+			cin >> check;
+			// break out of loop
+			if (check == 'y') {
+				tooHigh = true;
+			}
+			else {
+				// DO I NEED THIS
+				tooHigh = false;
+			}
 		}
 
 		// else
+		// if !tooHigh (if too low), go to second half
+		// if tooHigh, go to first half
 		if (! tooHigh) {
 			minVal = middle + 1;
 		}
@@ -77,13 +101,34 @@ int binarySearch(int minVal, int maxVal) {
 		// update
 		middle = (minVal + maxVal) / 2;
 		tryNum++;
+
+		// !!!!
+		// There is a logical inconsistency here where cheatNum can 
+		// be greater than
+		// No there can't be it doesn't work that way
+		// Something to do with rounding?
+		// It has something to do with the while loop being 
+		// minVal >= maxVal and the if statement being 
+		// tryNum > cheatNum
+
+		// change while loop to this if statement?
+
 		// if they cheated
+		/*
 		if (tryNum > cheatNum) {
-			cout << "It should have only taken me " << cheatNum << " tries to guess you number." << endl;
-			cout << "It is try number " << tryNum << "." << endl;
-			return 0;
+			// message
+			cout << "IF STATEMENT" << endl;
+			// break out of loop
+			break;
 		}
+		*/
 	}
+
+	// if minVal == maxVal && middle != guess
+	// they cheated
+	cout << "It should have only taken me " << cheatNum << " tries to guess you number." << endl;
+	cout << "It is try number " << tryNum << "." << endl;
+	return 0;
 }
 
 // Main application function
