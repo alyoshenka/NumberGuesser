@@ -4,19 +4,17 @@ using namespace std;
 // To Do
 // Multiple letters input > carryover to next input check
 
-// cin.clear();
-// cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+ //cin.clear();
+ //cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 
 // This function implments the binary search algorithm to
 // guess a number chosen by the user.
 int binarySearch(int minVal, int maxVal) {
-
-	// number of tries
-	int tryNum = 1;
+	int tryCount = 1;
 
 	// initial prompt
-	cout << "Choose a number between " << minVal << " and " << 
+	cout << "Choose a number between " << minVal << " and " <<
 		maxVal << " (inclusive)." << endl;
 	cout << "Hit enter when ready." << endl;
 
@@ -29,29 +27,27 @@ int binarySearch(int minVal, int maxVal) {
 		arr[i - 1] = i;
 	}
 
-	// debugging
-	minVal--;
+	bool tooHigh = false;
+	int middle = -1;
+	char check = 'a';
 
-	// initialize
-	int middle = (minVal + maxVal) / 2;
-
-	// while the binary search still has values left
 	while (minVal <= maxVal) {
 
-		middle = (minVal + maxVal) / 2;
-
+		middle = floor((minVal + maxVal) / 2);
 		// check if it is the number
 		// user input
-		char check = 'a';
+		check = 'a';
 
 		// check for number
 		cout << "Is " << middle << " the number? (y or n)" << endl;
 		cin >> check;
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 		// break out of loop
 		if (check == 'y') {
 			cout << middle << " is your number." << endl;
-			return tryNum;
+			return tryCount;
 		}
 
 		// input validation
@@ -59,24 +55,36 @@ int binarySearch(int minVal, int maxVal) {
 			cout << "Bad input." << endl;
 			cout << "Is " << middle << " the number? (y or n)" << endl;
 			cin >> check;
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			// break out of loop
 			if (check == 'y') {
 				cout << middle << " is your number." << endl;
-				return tryNum;
+				return tryCount;
 			}
 		}
-		
-		// check if it is too high or too low
-		bool tooHigh = false;
 
+		// check if it is too high or too low
+		tooHigh = false;
 		check = 'a';
 		cout << "Is " << middle << " too high? (y or n)" << endl;
 		cin >> check;
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		if (check == 'y') {
+			tooHigh = true;
+		}
+		else {
+			// here just in case
+			tooHigh = false;
+		}
 		// input validation
 		while (check != 'n' && check != 'y') {
 			cout << "Bad input." << endl;
 			cout << "Is " << middle << " too high? (y or n)" << endl;
 			cin >> check;
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			// break out of loop
 			if (check == 'y') {
 				tooHigh = true;
@@ -87,23 +95,14 @@ int binarySearch(int minVal, int maxVal) {
 			}
 		}
 
-		// else
-		// if !tooHigh (if too low), go to second half
-		// if tooHigh, go to first half
 		if (tooHigh) {
-			minVal = middle - 1;
+			maxVal = middle - 1;
 		}
 		else {
-			maxVal = middle + 1;
+			minVal = middle + 1;
 		}
-
-		// update
-		
-		tryNum++;
+		tryCount++;
 	}
-
-	cout << "Due to the binary search algorithm, I should have guessed" <<
-		" your number by now." << endl;
 	return 0;
 }
 
