@@ -113,6 +113,7 @@ int main() {
 
 	if (tryCount == 0) {
 		cout << "You cheated." << endl;
+		cout << "Goodbye" << endl;
 	} else if (tryCount == 1) {
 		cout << "It took me " << tryCount <<
 			" try to guess your number." << endl;
