@@ -29,11 +29,16 @@ int binarySearch(int minVal, int maxVal) {
 		arr[i - 1] = i;
 	}
 
+	// debugging
+	minVal--;
+
 	// initialize
 	int middle = (minVal + maxVal) / 2;
 
 	// while the binary search still has values left
 	while (minVal <= maxVal) {
+
+		middle = (minVal + maxVal) / 2;
 
 		// check if it is the number
 		// user input
@@ -93,7 +98,7 @@ int binarySearch(int minVal, int maxVal) {
 		}
 
 		// update
-		middle = (minVal + maxVal) / 2;
+		
 		tryNum++;
 	}
 
